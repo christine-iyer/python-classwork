@@ -1,0 +1,46 @@
+# Node.js dependencies
+node_modules/
+
+# Environment Variables
+.env
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database files (MongoDB backups, etc.)
+*.lock
+*.pid
+*.seed
+*.json
+dump/
+
+# Editor/IDE Files
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Built files
+dist/
+build/
+
+# Cache
+.cache/
+.npm/
+
+# Temporary files
+*.tmp
+*.swp
+
+# Compiled Python files (if Python is involved)
+__pycache__/
+*.py[cod]
+
+# MongoDB Shell dumps
+dump/
