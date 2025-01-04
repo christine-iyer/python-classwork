@@ -1,29 +1,39 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from routes.api.user import router as user_router
 import uvicorn
-import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+from models.user import User
+
+# SQLite Database URL
+DATABASE_URL = "sqlite:///./test.db"
+
+# Create SQLite engine
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
+# Create a session
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Define the base
+Base = declarative_base()
+
+# Debugging: Print before creating tables
+print("Creating tables...")
+
+# Create tables
+Base.metadata.create_all(bind=engine)  # <--- THIS LINE CREATES TABLES
+
+print("Tables created!")
+
 # Initialize FastAPI app
 app = FastAPI()
-
-# CORS Middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Include routes
 app.include_router(user_router, prefix="/api")
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the User Management API"}
+    return {"message": "SQLite FastAPI Server is running!"}
 
-# Run the server
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
-
-
+    uvicorn.run(app, host="0.0.0.0", port=8000)
